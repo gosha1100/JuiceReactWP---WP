@@ -9,43 +9,23 @@
 
 <body <?php body_class(); ?>>
 
-<?php 
-$menu_items = wp_get_nav_menu_items('navigation-menu');
+<?php
 
-function prepare_menu_data($items) {
-    $top_level_items = array_filter($items, function ($item) {
-        return $item->menu_item_parent == 0;
-    });
+$navMenu = wp_get_nav_menu_items('navigation-menu');
 
-    $menu = array_map(function ($item) {
-        return [
-            'id' => $item->ID,
-            'url' => $item->url,
-            'title' => $item->title,
-            'items' => []
-        ];
-    }, $top_level_items);
-
-    $menu = array_column($menu, null, 'id');
-
-    $sub_items = array_filter($items, function ($item) use ($menu) {
-        return isset($menu[$item->menu_item_parent]);
-    });
-
-    array_map(function ($item) use (&$menu) {
-        $menu[$item->menu_item_parent]['items'][] = [
-            'id' => $item->ID,
-            'url' => $item->url,
-            'title' => $item->title
-        ];
-    }, $sub_items);
-
-    return array_values($menu);
+foreach ($navMenu as $items) {
+    $structuredMenu[] = [
+        'id'               => $items->ID,
+        'menu_item_parent' => $items->menu_item_parent,
+        'title'            => $items->title,
+        'url'              => $items->url,
+    ];
 }
 
-$prepared_data = prepare_menu_data($menu_items);
+echo '<pre>' . print_r($structuredMenu, true) . '</pre>';
+echo 'jojo';
 
-print_r($prepared_data);
+$encodedMenu = json_encode($structuredMenu);
 ?>
 
-<div data-component="header" data-props='<?php echo json_encode($prepared_data); ?>'></div>
+<div data-component="nav-bar" data-props='<?php echo $encodedMenu; ?>'></div>
