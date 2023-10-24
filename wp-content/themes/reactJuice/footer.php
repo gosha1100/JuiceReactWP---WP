@@ -34,9 +34,6 @@ foreach ($structuredMenu['menu'] as &$menuItem) {
     }
 }
 
-echo '<pre>';
-print_r($structuredMenu);
-
 $encodedMenu = json_encode($structuredMenu);
 ?>
 <div data-component="footer" data-props='<?= $encodedMenu ?>'></div>

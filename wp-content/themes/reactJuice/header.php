@@ -4,13 +4,13 @@
 <head>
     <meta charset="<?php bloginfo( 'charset' ); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="<?php echo get_template_directory_uri(); ?>/index.css" rel="stylesheet">
     <?php wp_head(); ?>
 </head>
 
 <body <?php body_class(); ?>>
 
 <?php
-
 $navMenu = wp_get_nav_menu_items('navigation-menu');
 
 $children = array();
