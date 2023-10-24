@@ -13,19 +13,40 @@
 
 $navMenu = wp_get_nav_menu_items('navigation-menu');
 
-foreach ($navMenu as $items) {
-    $structuredMenu[] = [
-        'id'               => $items->ID,
-        'menu_item_parent' => $items->menu_item_parent,
-        'title'            => $items->title,
-        'url'              => $items->url,
-    ];
+$children = array();
+foreach ($navMenu as $item) {
+    $id = $item->ID;
+    $parentId = $item->menu_item_parent;
+
+    if (!isset($children[$parentId])) {
+        $children[$parentId] = array();
+    }
+
+    $menuItem = array(
+        'id' => $id,
+        'parent_id' => $parentId,
+        'title' => $item->title,
+        'url' => $item->url,
+    );
+
+    if ($parentId == 0) {
+        $structuredMenu['menu'][] = $menuItem;
+    } else {
+        $children[$parentId][] = $menuItem;
+    }
 }
 
-echo '<pre>' . print_r($structuredMenu, true) . '</pre>';
-echo 'jojo';
+foreach ($structuredMenu['menu'] as &$menuItem) {
+    if (isset($children[$menuItem['id']])) {
+        $menuItem['items'] = $children[$menuItem['id']];
+    }
+}
+
+echo '<pre>';
+print_r($structuredMenu);
 
 $encodedMenu = json_encode($structuredMenu);
+
 ?>
 
-<div data-component="nav-bar" data-props='<?php echo $encodedMenu; ?>'></div>
+<div data-component="navbar" data-props='<?php echo $encodedMenu; ?>'></div>
