@@ -1,6 +1,6 @@
 # JuiceReactWP - React Integration for WordPress
 
-**JuiceReactWP** offers an efficient solution for integrating React with existing WordPress projects. It's particularly useful for working with child themes or when requiring React's capabilities while maintaining Gutenberg block editing for client projects.
+**JuiceReactWP** offers an efficient solution for integrating React with existing WordPress projects. SPA is not available with this setup, because it's just made for using react libaries and people who are used to react syntax. If You wanna use wordpress as a headless, this is the wrong repo. It's particularly useful for working with child themes or when requiring React's capabilities while maintaining Gutenberg block editing for client projects.
 
 ## Directory Structure
 
